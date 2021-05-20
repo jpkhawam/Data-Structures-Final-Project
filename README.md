@@ -63,3 +63,47 @@ Each bin is represented by a stack. You can use C++ stack STL. It is possible to
 
 > Write a C++ program that solves this problem, given n items with random size, then output the
 number of bins used and the content of these bins. Give the complexity of your method.
+
+## Problem 4: Trees
+
+We need to create a genealogy tree, so we can determine the relationship between persons: cousin or
+descendant. Each person has at most 2 children. You are given as input the parents and their children,
+and a sequence of requests to determine the relationship between two persons. 
+
+The format of the output is:
+1. A and B descendant‐x
+2. C and D cousin‐m‐n‐p
+
+The first format means that between A and B there is a relationship of descendant with distance x 
+(i.e. the number of edges between A and B), if x=1, it means that A is parent to B, or B parent of A. 
+If x=2, A is grand‐parent of B, or B is the grand‐parent of A, etc. 
+
+The second format C is cousin to D, where C has a distance of m from the first common ancestor of D, 
+where D has a distance of n from the first common ancestor with C, where the first common ancestor is p.
+
+*A sample input:
+Number of persons: N = 15*
+
+| Parent | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+| :---- |:---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| Child1 | 2 | 4 | 6 | 8 | - | 10 | - | 12 | - | 13 | - | 14 | - | - | - |
+| Child2 | 3 | 5 | 7 | 9 | - | 11 | - | - | - | - | - | 15 | - | - | - |
+
+*Requests:*
+| Person 1 | 1 | 2 | 4 | 12 | 8 | 12 | 13 |
+| :---- |:---- | :---- | :---- | :---- | :---- | :---- | :---- |
+| Person 2 | 2 | 12 | 6 | 7 | 5 | 9 | 6 |
+
+*A sample output:*
+
+1 and 2 are descendant‐1      
+2 and 12 are descendant‐3     
+4 and 6 cousin‐2‐2‐1      
+12 and 7 cousin‐4‐2‐1     
+8 and 5 cousin‐2‐1‐2      
+12 and 9 cousin‐2‐1‐4     
+13 and 6 descendant‐2     
+
+>Write a C++ program to solve this problem, given a random input from a text file as shown in the
+sample input, including requests, then give the output as shown in the sample output. Give the
+complexity of your program.
