@@ -13,11 +13,11 @@ elements. In the following table, we gave a brief description about some of vect
 respecting the complexities in it and respecting the main characteristic described above.
 
 | STL vector operation     | Description                                                       | Complexity |
-| :------------            |:---------------:                                                  | -----:|
+| :------------            |:---------------                                                   | -----:|
 | vector\<int\> v          | Make an empty integer vector                                      | O(1) |
 | vector\<int\> v(n)       | Make a vector with n elements                                     | O(n) |
 | vector\<int\> v(n, value)| Make a vector with n elements, initialized to value               | O(n) |
-| v.assign(n,value)        | It assigns new value to the vector elements by replacing old ones | O(n) |
+| v.assign(n,value)        | Assigns new value to the vector elements by replacing old ones    | O(n) |
 | v.resize(n)              | Resizes the container so that it contains ‘n’ elements            | O(n) |
 | v.size()                 | Return current number of elements                                 | O(1) |
 | v.capacity()             | Returns the space allocated expressed as number of elements       | O(1) |
