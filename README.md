@@ -108,3 +108,42 @@ Number of persons: N = 15*
 >Write a C++ program to solve this problem, given a random input from a text file as shown in the
 sample input, including requests, then give the output as shown in the sample output. Give the
 complexity of your program.
+
+## Problem 5: Sorting
+
+1) We have an array with n elements containing 0, 1 and 2. Write a C++ program that sorts the array
+in linear complexity.
+2) You are given the ages of n persons in a country, where ages are integers in the interval [1,26].
+Write a C++ program to sort the ages with a best possible complexity. What is your complexity?
+3) Consider you have a list of n string of characters, for example: cab, bcd, axz, xwy, mpo, dcv.
+
+    a) Consider that the length of all strings are same and equal to m. In this example, the length
+of each string is 3. Write a C++ program that modifies the mergesort or quicksort to sort
+this list. What is its complexity?
+
+    b) Can you find a sorting method to sort an array of strings (with length m each) with better
+complexity? If yes, write a C++ program to implement it. What is its complexity?
+
+## Problem 6: Heap
+
+Consider a minimum priority queue PQ implemented using binary min‐heap tree. This PQ is used for a
+printer to print tasks (documents). A printer receives many tasks to be printed. Each task has a priority,
+an ID and a duration (number of unit time needed to be printed). Consider you receive n tasks into the
+printer. Tasks with low value of priority are printed before tasks with high value of priority. You wish to
+calculate the necessary time for your task, having a given ID, to be totally printed.
+
+> Write a C++ program to implement the solution with n random tasks as input. What is the
+complexity of your program? Draw the binary min‐heap for the example below, and redraw it
+when you remove the first task.
+
+*Example, you receive n = 6 tasks with a form (priority, ID, duration): (2,100,3), (5,40,4), (1,20,2), (4,30,5),
+(5,200,4), (3,50,4). Your ID is: 30. The necessary time to print your task is: 14.*
+
+## (Optional) Problem 7: Hashing 
+
+We aim to store in a hashing table a list of words, it means a small dictionary, and verify if a given text or
+paragraph has all its words written well according to this small dictionary. Your program takes as input a
+text file containing the list of words to add to the hashing table, and in the output you should display the
+words that does not correspond exactly to the words in the dictionary.
+> Write a C++ program that implements a hashing table and solve the problem. What is the
+complexity of your program?
