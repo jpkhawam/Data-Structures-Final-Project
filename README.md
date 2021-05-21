@@ -2,6 +2,7 @@
 These were my solutions to my final project for my Data Structures course. This repo serves as both a backup of my work, and a way for others to see my style of coding/thinking.
 
 # Givens of the problems:
+[*also available in PDF form*](https://github.com/Jayy77/Data-Structures-Final-Project/blob/main/Assets/Project%20I2206.pdf)
 
 ## Problem 1: Dynamic Arrays (Vectors)
 We aim to implement a dynamic ADT list based on arrays called Vector similar to the C++ vector STL. The
