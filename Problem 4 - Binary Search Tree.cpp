@@ -12,7 +12,7 @@ public:
     //THESE ARE THE SOLUTIONS
     //THIS FUNCTION TESTS IF A AND B HAVE A DIRECT RELATION
     //I.E. A IS PARENT/GRANDPARENT/... OF B OR VICE VERSA
-    bool directRelation(Node* secondNode) {
+        int directRelation(Node* secondNode) {
 
         //if either is a nullptr, there is no point in searching
         if (this == nullptr || secondNode == nullptr) return false;
@@ -48,10 +48,9 @@ public:
             }
         }
 
-        if (found) {
-            std::cout << "Persons A and B are descendants-" << edges;
-            return true;
-        }
+        if (found) 
+            return edges;
+        
         //else let's try from the second node finding the first node
         else {
             edges = 0;
@@ -81,12 +80,13 @@ public:
             }
         }
 
-        if (found) {
-            std::cout << "Persons A and B are descendants-" << edges;
-            return true;
-        }
+        if (found)
+            return edges;
         //else there is no direct relation
-        else return false;
+        else {
+            edges = -1;
+            return edges;
+        }
     }
    
     //--------------------------------------------------------
