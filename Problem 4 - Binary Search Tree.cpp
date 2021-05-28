@@ -8,6 +8,89 @@ private:
     Node* m_right = nullptr;
 
 public:
+    //-------------------------------------------------------
+    //THESE ARE THE SOLUTIONS
+    //THIS FUNCTION TESTS IF A AND B HAVE A DIRECT RELATION
+    //I.E. A IS PARENT/GRANDPARENT/... OF B OR VICE VERSA
+    bool directRelation(Node* secondNode) {
+
+        //if either is a nullptr, there is no point in searching
+        if (this == nullptr || secondNode == nullptr) return false;
+
+        //variables we need to use. 
+        Node* firstNode = this;
+        //number of edges between the 2 in case we find them
+        int edges = 0;
+        //keeps track if we find or not
+        bool found = false;
+
+        //searches from the first to the second node
+        while (!found) {
+            if (secondNode->m_data == firstNode->m_data) {
+                found = true;
+                break;
+            }
+            else if (secondNode->m_data < firstNode->m_data) {
+                if (firstNode->m_left != nullptr) {
+                    firstNode = firstNode->m_left;
+                    edges++;
+                    continue;
+                }
+                else break;
+            }
+            else if (secondNode->m_data > firstNode->m_data) {
+                if (firstNode->m_right != nullptr) {
+                    firstNode = firstNode->m_right;
+                    edges++;
+                    continue;
+                }
+                else break;
+            }
+        }
+
+        if (found) {
+            std::cout << "Persons A and B are descendants-" << edges;
+            return true;
+        }
+        //else let's try from the second node finding the first node
+        else {
+            edges = 0;
+            firstNode = this;
+        }
+
+        while (!found) {
+            if (firstNode->m_data == secondNode->m_data) {
+                found = true;
+                break;
+            }
+            else if (firstNode->m_data < secondNode->m_data) {
+                if (secondNode->m_left != nullptr) {
+                    secondNode = secondNode->m_left;
+                    edges++;
+                    continue;
+                }
+                else break;
+            }
+            else if (firstNode->m_data > secondNode->m_data) {
+                if (secondNode->m_right != nullptr) {
+                    secondNode = secondNode->m_right;
+                    edges++;
+                    continue;
+                }
+                else break;
+            }
+        }
+
+        if (found) {
+            std::cout << "Persons A and B are descendants-" << edges;
+            return true;
+        }
+        //else there is no direct relation
+        else return false;
+    }
+   
+    //--------------------------------------------------------
+    // THIS IS JUST THE CLASS TREE 
     //constructor
     Node(int data) {
         m_data = data;
@@ -73,17 +156,15 @@ public:
 
 };
 
+
+
 int main()
 {
     Node* root = new Node(15);
-    for (int i = 0; i < 10; i++) {
-        root->insert(rand() % 10);
-    }
-    std::cout << "In order: ";
-    root->displayInOrder();
-    std::cout << "\nPre Order: ";
-    root->displayPreOrder();
-    std::cout << "\nPost Order: ";
-    root->displayPostOrder();
+    root->insert(10);
+    root->insert(7);
+    root->insert(9);
+    Node* secondNode = root->find(9);
+    root->directRelation(secondNode);
     return 0;
 }
