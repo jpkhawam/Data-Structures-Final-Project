@@ -111,31 +111,34 @@ int outputData(std::vector<Queue>& queues) {
     return amount_to_output;
 }
 
-//TODO: FINISH THIS
-//runs the solution onceS
+//runs the solution once
 void runOnce(std::vector<Queue>& queues)
 {
     std::vector<int> random_numbers = inputData(queues);
     int amount_outputted = outputData(queues);
 
+    std::cout << "Numbers inputted into each queue: ";
     for (const int& i : random_numbers)
-        std::cout << i << "\t";
+        std::cout << i << "  ";
 
-
+    std::cout << "\nAmount of data outputted from the system: " << amount_outputted << '\n';
+    
+    for (int i = 0; i < queues.size(); i++)
+        std::cout << "q" << i << ".size(): " << queues.at(i).size() << '\n';
+    std::cout << std::endl << std::endl;
 }
 
 int main()
 {
     std::vector<Queue> queues(number_of_queues);
 
-    //TODO: FIGURE OUT IF I STILL NEED THIS
-    /*
     int amount_of_rounds = 0;
     std::cout << "How many rounds would you like to run? ";
     std::cin >> amount_of_rounds;
     std::cout << std::endl << std::endl;
-    */
+    
+    for (int i = 0; i < amount_of_rounds; i++)
+        runOnce(queues);
 
-    runOnce(queues);
     return 0;
 }
