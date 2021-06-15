@@ -105,7 +105,7 @@ int main() {
     //for information on how the text file is formatted, please read the comments below main()
     /*IMPORTANT*/
 
-    std::ifstream file("Text.txt");
+    std::ifstream file(R"(Assets\input-text.txt)");
     //Exception if file doesn't exist
     try {
         file.exceptions(std::ios_base::failbit);
