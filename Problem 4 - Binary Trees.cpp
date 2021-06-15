@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 struct Node {
     int val = 0;
@@ -100,32 +101,96 @@ void solution(Node* root, Node* first, Node* second) {
 
 int main() {
 
-    //      Create tree identical to the one in the given           //
-    //--------------------------------------------------------------//
-    Node* root = new Node(1);    Node* node2 = new Node(2);         //
-    Node* node3 = new Node(3);   Node* node4 = new Node(4);         //
-    Node* node5 = new Node(5);   Node* node6 = new Node(6);         //
-    Node* node7 = new Node(7);   Node* node8 = new Node(8);         //
-    Node* node9 = new Node(9);   Node* node10 = new Node(10);       //
-    Node* node11 = new Node(11); Node* node12 = new Node(12);       //
-    Node* node13 = new Node(13); Node* node14 = new Node(14);       //
-    Node* node15 = new Node(15);                                    //
-    root->right = node3;    root->left = node2;                     //
-    node2->left = node4;    node2->right = node5;                   //
-    node4->left = node8;    node4->right = node9;                   //
-    node8->left = node12;   node12->left = node14;                  //
-    node12->right = node15; node3->left = node6;                    //
-    node3->right = node7;   node6->left = node10;                   //
-    node6->right = node11;  node10->left = node13;                  //
-    //--------------------------------------------------------------//
+    /*IMPORTANT*/
+    //for information on how the text file is formatted, please read the comments below main()
+    /*IMPORTANT*/
 
-    solution(root, root, node2);   //1 and 2 are descendant-1
-    solution(root, node2, node12); //2 and 12 are descendant-3
-    solution(root, node4, node6);  //4 and 6 cousin2-2-1
-    solution(root, node12, node7); //12 and 7 cousin4-2-1
-    solution(root, node8, node5);  //8 and 5 cousin2-1-2
-    solution(root, node12, node9); //12 and 9 cousin2-1-4
-    solution(root, node13, node6); //13 and 6 descendant-2
+    std::ifstream file("Text.txt");
+    //Exception if file doesn't exist
+    try {
+        file.exceptions(std::ios_base::failbit);
+    }
+    catch (const std::ios_base::failure& exception) {
+        std::cout << exception.what() << std::endl;
+        return 1;
+    }
+
+    int number_of_nodes = 0;
+    file >> number_of_nodes;
+    number_of_nodes++;
+
+    std::vector<Node*> nodes(number_of_nodes);
+    //for easy access to index, nodes.at(1) is a new Node(1). So we need nodes.at(0) empty
+    nodes.push_back(nullptr);
+
+    for (int i = 1; i < number_of_nodes; i++)
+        nodes.at(i) = new Node(i);
+
+    for (int i = 1; i < number_of_nodes; i++) {
+        int val;
+        file >> val;
+        if (val == 0)
+            nodes.at(i)->left = nullptr;
+        else
+            nodes.at(i)->left = nodes.at(val);
+    }
+
+    for (int i = 1; i < number_of_nodes; i++) {
+        int val;
+        file >> val;
+        if (val == 0)
+            nodes.at(i)->right = nullptr;
+        else
+            nodes.at(i)->right = nodes.at(val);
+    }
+
+    std::vector<Node*> requests1;
+    std::vector<Node*> requests2;
+    int val;
+
+    while (!file.eof()) {
+        file >> val;
+        if (val == 0) break;
+        requests1.push_back(nodes.at(val));
+    }
+
+    while (!file.eof()) {
+        file >> val;
+        if (val == 0) break;
+        requests2.push_back(nodes.at(val));
+    }
+
+    Node* root = nodes.at(1);
+    for (int i = 0; i < requests1.size(); i++) {
+        solution(root, requests1.at(i), requests2.at(i));
+    }
 
     return 0;
 }
+
+/*                          INFORMATION ON TEXT FILE FORMAT                             */
+
+/*
+ *
+ * The first line contains the number of the nodes in the tree.
+ * Since the node numbers are implicit (1,2,3,...,N), there is no need to include them
+ * again in the text file.
+ * The second line is N characters long, and specifies for each node at index i, its "left" (first) child
+ * and 0 if it does not have a child
+ * The same goes for the second line.
+ *
+ * Finally, the requests below are in the form of two strings of characters
+ * which can be mapped into two vectors, in which every two elements at index i are for the same request.
+ * The lines end with a 0 to signal the end of the line.
+ *
+ * EXAMPLE :
+ *
+ * 15           //NUMBER OF NODES, create 15 nodes going from value 1 til 15 (inclusive)
+ *
+ * 2 4 6 8 0 10 0 12 0 13 0 14 0 0 0    //node#1 has as left child the value 2, node #2 has 4, and so on...
+ * 3 5 7 9 0 11 0 0 0 0 0 15 0 0 0      //node#1 has as right child the value 3, node#2 has 5, and so on...
+ *
+ * 1 2 4 12 8 12 13 0                   //the requests will be, (1,2), (2,12), ...
+ * 2 12 6 75 9 6 0                      //i.e., the first from first line with the first from second line
+ *
+ */
