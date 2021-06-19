@@ -48,14 +48,14 @@ public:
             std::cout << "Empty array." << std::endl;
             return;
         }
-        for (int i = 0; i < this->m_nbElements; i++) 
+        for (int i = 0; i < this->m_nbElements; i++)
             std::cout << this->m_array[i] << " ";
         std::cout << std::endl;
     }
 
     //v.assign(n, value) It assigns new value to the vector elements by replacing old ones O(n)
     bool assign(int n, T value) {
-        if (n <0) return false;
+        if (n < 0) return false;
         if (n > this->m_capacity) {
             resize(this->m_capacity + n);
         }
@@ -71,7 +71,7 @@ public:
         if (n < 0) return false;
 
         T* tmp = new T[n];
-        for (int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++)
             tmp[i] = this->m_array[i];
         delete[] this->m_array;
         this->m_array = tmp;
@@ -149,7 +149,7 @@ public:
         tmp[position] = value;
         for (int i = position; i < this->m_nbElements; i++)
             //since now tmp is one element ahead, the indices also are
-            tmp[i+1] = this->m_array[i];
+            tmp[i + 1] = this->m_array[i];
         delete[] m_array;
         this->m_array = tmp;
         //add 1 to element and capacity counters
@@ -170,12 +170,12 @@ public:
             pop_back();
             return true;
         default:
-            T* tmp = new T[this->m_capacity-1];
+            T* tmp = new T[this->m_capacity - 1];
             for (int i = 0; i < position; i++)
                 tmp[i] = this->m_array[i];
-            for (int i = position; i < this->m_nbElements-1; i++)
+            for (int i = position; i < this->m_nbElements - 1; i++)
                 //since now m_array is one element ahead, the indices also are
-                tmp[i] = this->m_array[i+1];
+                tmp[i] = this->m_array[i + 1];
             delete[] m_array;
             this->m_array = tmp;
             //remove 1 from m_nbElements
@@ -190,85 +190,56 @@ int main()
 {
     //TEST THE CONSTRUCTORS
     std::cout << "Creating an empty array a..." << std::endl;
-    Vector<int> a;
-    std::cout << "Creating an array b of size 10..." << std::endl;
-    Vector<int> b(10);
-    std::cout << "Creating an array c with size 15, and initializing all values to 7...\n";
-    Vector<int> c(15, 7);
-    std::cout << std::endl;
+    Vector<int> A;
+    std::cout << "Creating an array B with size 15, and initializing all values to 7...\n\n";
+    Vector<int> B(15, 7);
 
     //TEST THE DISPLAY() AND EMPTY() FUNCTIONS
-    std::cout << "Displaying array a: ";
-    a.display();
-    if (a.empty()) std::cout << "Array a is empty.\n";
-    //this second if is redundant but only for testing purposes
-    else if (!a.empty()) std::cout << "Array a is not empty.\n";
-    std::cout << "Displaying array b: ";
-    b.display();
-    if (b.empty()) std::cout << "Array b is empty.\n";
-    else if (!b.empty()) std::cout << "Array b is not empty.\n";
-    std::cout << "Displaying array c: ";
-    c.display();
-    if (c.empty()) std::cout << "Array c is empty.\n";
-    else if (!c.empty()) std::cout << "Array c is not empty.\n";
+    std::cout << "Displaying array A: ";
+    if (A.empty()) std::cout << "Array A is empty.\n";
+    else A.display();
+
+    std::cout << "Displaying array B: ";
+    if (B.empty()) std::cout << "Array B is empty.\n";
+    else B.display();
     std::cout << std::endl;
 
     //TEST THE ASSIGN() FUNCTION
-    std::cout << "Assigning the first 2 elements of a to 9...\n";
-    a.assign(2, 9);
-    std::cout << "Displaying array a: ";
-    a.display();
-    std::cout << "Assigning the first 4 elements of b to 3...\n";
-    b.assign(4, 3);
-    std::cout << "Displaying array b: ";
-    b.display();
-    std::cout << "Assigning the first 7 elements of c to 0...\n";
-    c.assign(7, 0);
-    std::cout << "Displaying array c: ";
-    c.display();
+    std::cout << "Assigning the first 2 elements of A to 9...\n";
+    A.assign(2, 9);
+    std::cout << "Displaying array A: ";
+    A.display();
+    std::cout << "Assigning the first 7 elements of B to 0...\n";
+    B.assign(7, 0);
+    std::cout << "Displaying array B: ";
+    B.display();
     std::cout << std::endl;
 
     //TESTING THE RESIZE(), CAPACITY() AND SIZE() FUNCTIONS
-    std::cout << "Current size of array a: " << a.capacity() << std::endl;
-    std::cout << "Current number of elements in a: " << a.size() << std::endl;
-    std::cout << "Resizing a to 3..." << std::endl;
-    a.resize(3);
-    std::cout << "Current size of array a: " << a.capacity() << std::endl;
-    std::cout << "Displaying array a: ";
-    a.display();
-    std::cout << std::endl;
-
-    std::cout << "Current size of array c: " << c.capacity() << std::endl;
-    std::cout << "Current number of elements in c: " << c.size() << std::endl;
-    std::cout << "Resizing c to 5..." << std::endl;
-    c.resize(5);
-    std::cout << "Current size of array c: " << c.capacity() << std::endl;
-    std::cout << "Displaying array c: ";
-    c.display();
+    std::cout << "Current size of array B: " << B.capacity() << std::endl;
+    std::cout << "Current number of elements in B: " << B.size() << std::endl;
+    std::cout << "Resizing B to 5..." << std::endl;
+    B.resize(5);
+    std::cout << "Current size of array B: " << B.capacity() << std::endl;
+    std::cout << "Displaying array B: ";
+    B.display();
     std::cout << std::endl;
 
     //TESTING THE FRONT(), BACK(), PUSH_BACK(), INSERT(), POP_BACK() AND ERASE() FUNCTIONS
-
-    std::cout << "Displaying array c: ";
-    c.display();
-    std::cout << "Pushing back the number 88 to the array\n";
-    c.push_back(88);
-    std::cout << "Displaying array c: ";
-    c.display();
+    std::cout << "Pushing back the number 88 to the array B\n";
+    B.push_back(88);
     std::cout << "Inserting the value 44 at position 0...\n";
-    c.insert(0, 44);
-    std::cout << "Displaying array c: ";
-    c.display();
+    B.insert(0, 44);
+    std::cout << "Displaying array B: ";
+    B.display();
     std::cout << "Erasing the element at position 2...\n";
-    c.erase(2);
-    std::cout << "Displaying array c: ";
-    c.display();
-    std::cout << "The first element of c is " << c.front() << std::endl;
-    std::cout << "The last element of c is " << c.back() << std::endl;
+    B.erase(2);
+    std::cout << "The first element of B is " << B.front() << std::endl;
+    std::cout << "The last element of B is " << B.back() << std::endl;
     std::cout << "Deleting the last element...\n";
-    c.pop_back();
-    std::cout << "Displaying array c: ";
-    c.display();
+    B.pop_back();
+    std::cout << "Displaying array B: ";
+    B.display();
 
     return 0;
 
