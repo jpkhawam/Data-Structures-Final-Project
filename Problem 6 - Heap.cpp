@@ -1,25 +1,28 @@
 #include <iostream>
 
-class Task {
-public:
-    int priority = 99;
-    int id = -1;
-    int duration = 0;
-
-    Task() = default;
-
-    Task(int priority, int id, int duration) {
-        this->priority = priority;
-        this->id = id;
-        this->duration = duration;
-    }
-};
-
-
 class MinHeap {
+
 private:
+
     int capacity = 10;
     int size = 0;
+
+    class Task {
+    public:
+
+        int priority = 99;
+        int id = -1;
+        int duration = 0;
+
+        Task() = default;
+
+        Task(int priority, int id, int duration) {
+            this->priority = priority;
+            this->id = id;
+            this->duration = duration;
+        }
+    };
+
     Task* items = new Task[capacity];
 
 private:
@@ -76,11 +79,35 @@ private:
             }
             index = smallerChildIndex;
         }
+
     }
 
-
-
 public:
+
+    //    //not needed but in case want to display the first task that will be printed
+    //    //returns the minimum element
+    //    Task peek() {
+    //        if (size == 0) {
+    //            std::cerr << "Empty heap." << std::endl;
+    //            exit(1);
+    //        }
+    //        return items[0];
+    //    }
+    // 
+    //    //In case want to mark a task as done and test again
+    //    //remove the minimum element
+    //    Task poll() {
+    //        if (size == 0) {
+    //            std::cerr << "Empty heap." << std::endl;
+    //            exit(1);
+    //        }
+    //        Task tmp = items[0];
+    //        items[0] = items[size - 1];
+    //        size--;
+    //        heapifyDown();
+    //        return tmp;
+    //    }
+
     void add(Task item) {
         ensureExtraCapacity();
         items[size] = item;
