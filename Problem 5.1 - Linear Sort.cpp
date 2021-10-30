@@ -1,17 +1,15 @@
 #include <iostream>
 #include <vector>
 
-//the array passed to this function must only contain 0, 1 and 2. 
-//Any other value isn't accepted
 std::vector<int> customSort(const std::vector<int> &input) {
-    int size = input.size();
-    int low = 0;
-    int high = size-1;
+    int size { static_cast<int>(input.size()) };
+    int low{};
+    int high { size - 1 };
     std::vector<int> output(size);
 
-    //since we have only 3 possible values, this is easy to do in linear time
+    // since we have only 3 possible values, this is easy to do in linear time
     for (int i = 0; i < size; i++) {
-        //if the value is 0, put it at the beginning
+        // if the value is 0, put it at the beginning
         if (input.at(i) == 0) {
             output.at(low) = 0;
             low++;
@@ -22,30 +20,27 @@ std::vector<int> customSort(const std::vector<int> &input) {
             high--;
         }
         //if it is 1, continue
-        else if (input.at(i) == 1) 
+        else if (input.at(i) == 1)
             continue;
         else {
             std::cerr << "Array contained a value different than 0, 1 and 2." << std::endl;
-            exit(1);
+            std::exit(1);
         }
     }
-
     //now all the unfilled values must be 1
     for (int i = low; i <= high; i++) {
         output.at(i) = 1;
     }
-
     return output;
 }
 
-int main()
-{
-    std::vector<int> input{ 0,1,1,0,0,2,2,2,0,0,1,0,2,1 };
+int main() {
+    std::vector<int> input { 0, 1, 1, 0, 0, 2, 2, 2, 0, 0, 1, 0, 2, 1 };
     std::vector<int> output = customSort(input);
 
     std::cout << "Initial array: ";
-    for (int i = 0; i < input.size(); i++) {
-        std::cout << input.at(i) << " ";
+    for (const int i : input) {
+        std::cout << i << " ";
     }
 
     std::cout << "\nSorted Array: ";
