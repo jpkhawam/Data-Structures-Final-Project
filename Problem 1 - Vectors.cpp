@@ -1,27 +1,23 @@
 #include <iostream>
 
-//Usage:
-//Create new vector : Vector<type> vector_name(optional_parameters);
+// Vector<type> vector_name(optional_parameters);
 template<typename T>
 class Vector {
 
 private:
-    //prefix variable names with m_ so I can easily tell 
-    // which variable is a member variable to this class
     T* m_array = nullptr;
-    int m_capacity = 0;
+    int m_capacity = 0; // storage size currently allocated to the vector
     int m_nbElements = 0;
 
 public:
-
-    //vector<int> v; Make an empty integer vector. O(1)
+    // vector<int> v; Make an empty integer vector - O(1)
     Vector() {
         this->m_array = new T[10];
         this->m_capacity = 10;
     }
 
-    //vector<int> v(n); Make a vector with n elements. O(n)
-    Vector(int size) {
+    // vector<int> v(n); Make a vector with n elements - O(n)
+    explicit Vector(int size) {
         if (size < 0) {
             std::cerr << "Cannot initialize vector with negative size" << std::endl;
             exit(1);
@@ -30,7 +26,7 @@ public:
         this->m_capacity = size;
     }
 
-    //vector<int> v(n, value); Make a vector with n elements, initialized to value. O(n)
+    // vector<int> v(n, value); Make a vector with n elements, initialized to value - O(n)
     Vector(int size, T value) {
         if (size < 0) {
             std::cerr << "Cannot initialize vector with negative size" << std::endl;
@@ -53,7 +49,7 @@ public:
         std::cout << std::endl;
     }
 
-    //v.assign(n, value) It assigns new value to the vector elements by replacing old ones O(n)
+    // v.assign(n, value); assigns new value to the vector elements by replacing old ones - O(n)
     bool assign(int n, T value) {
         if (n < 0) return false;
         if (n > this->m_capacity) {
@@ -66,7 +62,7 @@ public:
         return true;
     }
 
-    //v.resize(n) Resizes the container so that it contains ‘n’ elements. O(n)
+    // v.resize(n); resizes the container so that it contains ‘n’ elements - O(n)
     bool resize(int n) {
         if (n < 0) return false;
 
@@ -82,33 +78,19 @@ public:
 
         return true;
     }
-
-    //v.size(); Return current number of elements. O(1)
-    int size() {
-        return this->m_nbElements;
-    }
-
-    //v.capacity() Returns the storage size currently allocated to the vector. O(1)
-    int capacity() {
-        return this->m_capacity;
-    }
-
-    //v.empty(); Return true if vector is empty. O(1)
-    bool empty() {
-        return this->m_nbElements == 0;
-    }
-
-    //v.front(); Return the first element. O(1)
+    
+    int size() { return this->m_nbElements; }
+    int capacity() { return this->m_capacity; }
+    bool empty() { return this->m_nbElements == 0; }
+    
     T front() {
         if (this->m_nbElements == 0) {
             std::cerr << "Cannot access first element as array is empty" << std::endl;
             exit(1);
         }
-
         return this->m_array[0];
     }
-
-    //v.back(); Return the last element. O(1)
+    
     T back() {
         if (this->m_nbElements == 0) {
             std::cerr << "Cannot access last element as array is empty" << std::endl;
@@ -141,7 +123,7 @@ public:
             push_back(value);
             return;
         }
-        //this case is insertion in the middle/beginning of the array, 
+        //this case is insertion in the middle/beginning of the array,
         // create a new array and place the new element accordingly
         T* tmp = new T[this->m_capacity + 1];
         for (int i = 0; i < position; i++)
@@ -157,30 +139,29 @@ public:
         this->m_capacity++;
     }
 
-    //v.erase(position); Erase value indexed by position. O(n)
+    //v.erase(position); Erase value indexed by position - O(n)
     bool erase(int position) {
         if (position > this->m_nbElements - 1)
             return false;
 
-        switch (this->m_nbElements)
-        {
-        case 0:
-            return false;
-        case 1:
-            pop_back();
-            return true;
-        default:
-            T* tmp = new T[this->m_capacity - 1];
-            for (int i = 0; i < position; i++)
-                tmp[i] = this->m_array[i];
-            for (int i = position; i < this->m_nbElements - 1; i++)
-                //since now m_array is one element ahead, the indices also are
-                tmp[i] = this->m_array[i + 1];
-            delete[] m_array;
-            this->m_array = tmp;
-            //remove 1 from m_nbElements
-            this->m_nbElements--;
-            return true;
+        switch (this->m_nbElements) {
+            case 0:
+                return false;
+            case 1:
+                pop_back();
+                return true;
+            default:
+                T* tmp = new T[this->m_capacity - 1];
+                for (int i = 0; i < position; i++)
+                    tmp[i] = this->m_array[i];
+                for (int i = position; i < this->m_nbElements - 1; i++)
+                    //since now m_array is one element ahead, the indices also are
+                    tmp[i] = this->m_array[i + 1];
+                delete[] m_array;
+                this->m_array = tmp;
+                //remove 1 from m_nbElements
+                this->m_nbElements--;
+                return true;
         }
     }
 };
@@ -244,5 +225,3 @@ int main()
     return 0;
 
 }
-
-
