@@ -3,30 +3,26 @@
 class MinHeap {
 
 private:
-
-    int capacity = 10;
-    int size = 0;
-
     class Task {
-    public:
+        public:
+            int priority { 99 };
+            int id { -1 };
+            int duration {};
 
-        int priority = 99;
-        int id = -1;
-        int duration = 0;
+            Task() = default;
 
-        Task() = default;
-
-        Task(int priority, int id, int duration) {
-            this->priority = priority;
-            this->id = id;
-            this->duration = duration;
-        }
+            Task(int priority, int id, int duration) {
+                this->priority = priority;
+                this->id = id;
+                this->duration = duration;
+            }
     };
 
+    int capacity { 10 };
+    int size {};
     Task* items = new Task[capacity];
 
 private:
-
     static int getLeftChildIndex(int parentIndex) { return 2 * parentIndex + 1; }
     static int getRightChildIndex(int parentIndex) { return 2 * parentIndex + 2; }
     static int getParentIndex(int childIndex) { return (childIndex - 1) / 2; }
@@ -48,7 +44,8 @@ private:
     void ensureExtraCapacity() {
         if (size == capacity) {
             Task* newTasks = new Task[capacity * 2];
-            for (int i = 0; i < size; i++) newTasks[i] = items[i];
+            for (int i = 0; i < size; i++)
+                newTasks[i] = items[i];
             delete[] items;
             items = newTasks;
             capacity *= 2;
@@ -84,29 +81,29 @@ private:
 
 public:
 
-    //    //not needed but in case want to display the first task that will be printed
-    //    //returns the minimum element
-    //    Task peek() {
-    //        if (size == 0) {
-    //            std::cerr << "Empty heap." << std::endl;
-    //            exit(1);
-    //        }
-    //        return items[0];
-    //    }
-    // 
-    //    //In case want to mark a task as done and test again
-    //    //remove the minimum element
-    //    Task poll() {
-    //        if (size == 0) {
-    //            std::cerr << "Empty heap." << std::endl;
-    //            exit(1);
-    //        }
-    //        Task tmp = items[0];
-    //        items[0] = items[size - 1];
-    //        size--;
-    //        heapifyDown();
-    //        return tmp;
-    //    }
+    //  display the first task that will be printed
+    // returns the minimum element
+    Task peek() {
+        if (size == 0) {
+            std::cerr << "Empty heap." << std::endl;
+            exit(1);
+        }
+        return items[0];
+    }
+
+    // mark a task as done and test again
+    // remove the minimum element
+    Task poll() {
+        if (size == 0) {
+            std::cerr << "Empty heap." << std::endl;
+            exit(1);
+        }
+        Task tmp = items[0];
+        items[0] = items[size - 1];
+        size--;
+        heapifyDown();
+        return tmp;
+    }
 
     void add(Task item) {
         ensureExtraCapacity();
@@ -119,19 +116,20 @@ public:
         //first find the desired task by the id
         int target_index = 0;
         for (; target_index < size; target_index++)
-            if (items[target_index].id == id) break;
+            if (items[target_index].id == id)
+                break;
 
         if (items[target_index].id != id) {
             std::cerr << "Task not found." << std::endl;
             exit(1);
         }
 
-        int duration = 0;
+        int duration {};
         for (int i = 0; i < size; i++)
-            if (items[i].priority <= items[target_index].priority) duration += items[i].duration;
+            if (items[i].priority <= items[target_index].priority)
+                duration += items[i].duration;
         return duration;
     }
-
 };
 
 int main() {
@@ -149,7 +147,7 @@ int main() {
     std::cin >> id_to_look_for;
     int result = heap.calculateDuration(id_to_look_for);
     std::cout << "Your ID is: " << id_to_look_for << ". The necessary time to print your task is: "
-        << result << std::endl;
+              << result << std::endl;
 
     return 0;
 }
