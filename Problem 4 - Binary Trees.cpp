@@ -3,23 +3,22 @@
 #include <fstream>
 
 struct Node {
-    int val = 0;
-    Node* left = nullptr;
-    Node* right = nullptr;
+    int val {};
+    Node* left { nullptr };
+    Node* right { nullptr };
 
-    explicit Node(int val)
-    {
+    explicit Node(int val) {
         this->val = val;
     }
 };
 
 bool findPath(std::vector<Node*>& path, Node* root, int val) {
 
-    //when we reach a leaf, return
+    // when we reach a leaf, return
     if (root == nullptr)
         return false;
 
-    //not a node, insert in vector so we check if it exists
+    // not a node, insert in vector so we check if it exists
     path.push_back(root);
 
     //case of finding the desired value. Return here
@@ -27,8 +26,8 @@ bool findPath(std::vector<Node*>& path, Node* root, int val) {
         return true;
 
     //if not, keep digging in on both sides, until one returns true or it fails
-    if ((root->left && findPath(path, root->left, val))
-        || (root->right && findPath(path, root->right, val)))
+    if ( (root->left && findPath(path, root->left, val))
+        || (root->right && findPath(path, root->right, val)) )
         return true;
 
     //in which case we need to remove that element from the vector
@@ -40,23 +39,23 @@ bool findPath(std::vector<Node*>& path, Node* root, int val) {
 
 int findDirectRelation(std::vector<Node*>& path1, std::vector<Node*>& path2, Node* first, Node* second) {
 
-    int index1 = 0, index2 = 0;
-    bool found = false;
+    int index1, index2 {};
+    bool found { false };
 
     //the bigger array will contain the other element somewhere inside, and itself at the end
     if (path1.size() > path2.size()) {
-        index1 = path1.size() - 1;
+        index1 = (int)path1.size() - 1;
         for (int i = 0; i < path1.size(); i++) {
             if (path1.at(i)->val == second->val) {
                 index2 = i;
                 found = true;
                 break;
-            } 
+            }
         }
     }
 
     else {
-        index2 = path2.size() - 1;
+        index2 = (int)path2.size() - 1;
         for (int i = 0; i < path2.size(); i++) {
             if (path2.at(i)->val == first->val) {
                 index1 = i;
@@ -65,45 +64,45 @@ int findDirectRelation(std::vector<Node*>& path1, std::vector<Node*>& path2, Nod
             }
         }
     }
-    if (found) return std::abs(index1 - index2);
+    if (found)
+        return std::abs(index1 - index2);
     return -1;
 }
 
 int findIndexCommonAncestor(std::vector<Node*>& path1, std::vector<Node*>& path2) {
     for (int i = 1; i < path1.size() && i < path2.size(); i++) {
-        if (path1.at(i) == path2.at(i)) continue;
+        if (path1.at(i) == path2.at(i))
+            continue;
         return i - 1;
     }
 }
 
 void solution(Node* root, Node* first, Node* second) {
-    //path# will store the list of nodes that lead to the # node
+    // path# will store the list of nodes that lead to the # node
     std::vector<Node*> path1;
     std::vector<Node*> path2;
-    //this modifies these vectors, storing the nodes in them
+    // this modifies these vectors, storing the nodes in them
     findPath(path1, root, first->val);
     findPath(path2, root, second->val);
 
-    //this checks if there is a direct relation between the two
-    //if yes it prints the distance
+    // this checks if there is a direct relation between the two
+    // if yes it prints the distance
     int directRelation = findDirectRelation(path1, path2, first, second);
     if (directRelation > -1) {
         std::cout << first->val << " and " << second->val << " are descendant-" << directRelation << std::endl;
         return;
     }
 
-    //else, just find the youngest common ancestor and print the distances
-    //from the nodes to it
+    // else, just find the youngest common ancestor and print the distances
+    // from the nodes to it
     int indexAncestor = findIndexCommonAncestor(path1, path2);
     std::cout << first->val << " and " << second->val << " are cousin" << path1.size() - indexAncestor - 1 << "-"
-        << path2.size() - indexAncestor - 1 << "-" << path1.at(indexAncestor)->val << std::endl;
+              << path2.size() - indexAncestor - 1 << "-" << path1.at(indexAncestor)->val << std::endl;
 }
 
 int main() {
 
-    /*IMPORTANT*/
-    //for information on how the text file is formatted, please read the comments below main()
-    /*IMPORTANT*/
+    // for information on how the text file is formatted, read the comment block at the end
 
     std::ifstream file(R"(Assets\input-text.txt)");
     //Exception if file doesn't exist
@@ -115,7 +114,7 @@ int main() {
         return 1;
     }
 
-    int number_of_nodes = 0;
+    int number_of_nodes {};
     file >> number_of_nodes;
     number_of_nodes++;
 
@@ -126,38 +125,37 @@ int main() {
     for (int i = 1; i < number_of_nodes; i++)
         nodes.at(i) = new Node(i);
 
+    int tmp_value {};
     for (int i = 1; i < number_of_nodes; i++) {
-        int val;
-        file >> val;
-        if (val == 0)
+        file >> tmp_value;
+        if (tmp_value == 0)
             nodes.at(i)->left = nullptr;
         else
-            nodes.at(i)->left = nodes.at(val);
+            nodes.at(i)->left = nodes.at(tmp_value);
     }
 
     for (int i = 1; i < number_of_nodes; i++) {
-        int val;
-        file >> val;
-        if (val == 0)
+        file >> tmp_value;
+        if (tmp_value == 0)
             nodes.at(i)->right = nullptr;
         else
-            nodes.at(i)->right = nodes.at(val);
+            nodes.at(i)->right = nodes.at(tmp_value);
     }
 
     std::vector<Node*> requests1;
     std::vector<Node*> requests2;
-    int val;
 
     while (!file.eof()) {
-        file >> val;
-        if (val == 0) break;
-        requests1.push_back(nodes.at(val));
+        file >> tmp_value;
+        if (tmp_value == 0) break;
+        requests1.push_back(nodes.at(tmp_value));
     }
 
     while (!file.eof()) {
-        file >> val;
-        if (val == 0) break;
-        requests2.push_back(nodes.at(val));
+        file >> tmp_value;
+        if (tmp_value == 0)
+            break;
+        requests2.push_back(nodes.at(tmp_value));
     }
 
     Node* root = nodes.at(1);
