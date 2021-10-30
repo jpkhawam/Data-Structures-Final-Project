@@ -1,16 +1,12 @@
-/*uses libraries from C++11*/
-/*if it doesn't compile, you may need to use a more recent version of C++*/
-
 #include <iostream>
 #include <vector>
 #include <random>
 #include <ctime>
 
-constexpr int number_of_queues = 3;
+constexpr int g_number_of_queues = 3;
 
 class Node {
 public:
-    const short int data = 0;        //is only 0 in this use case
     int type = -1;                  //is the "priority" of the node
     Node* next = nullptr;
 
@@ -42,11 +38,9 @@ public:
         }
         return size;
     }
-
-    //inputs default value of 0
+    
     void enqueue(int type) {
         Node* tmp = new Node(type);
-
         if (this->isEmpty()) {
             this->front = this->rear = tmp;
             return;
@@ -71,9 +65,8 @@ public:
 
 //returns a vector of the amount of data enqueued in each queue
 std::vector<int> inputData(std::vector<Queue>& queues, int roundNumber) {
-    // we can use either this or rand(). This has better randomness but it is similar
-    //   Initialize our mersenne twister with a random seed based on the clock and
-    //       multiply the time by roundNumber each time so each round input is different
+    // Initialize our mersenne twister with a random seed based on the clock and
+    // multiply the time by roundNumber each time so each round input is different
     std::mt19937 mersenne{ static_cast<std::mt19937::result_type>(std::time(nullptr) * roundNumber) };
 
     // Create a reusable random number generator that generates uniform numbers between 1 and 10
@@ -81,9 +74,9 @@ std::vector<int> inputData(std::vector<Queue>& queues, int roundNumber) {
     std::uniform_int_distribution<> rng{ 1, 10 };
 
     //for display, we could store the random ni's in a vector
-    std::vector<int> random_numbers(number_of_queues);
+    std::vector<int> random_numbers(g_number_of_queues);
 
-    for (int i = 0; i < number_of_queues; i++) {
+    for (int i = 0; i < g_number_of_queues; i++) {
         random_numbers.at(i) = rng(mersenne);
         for (int count = random_numbers.at(i); count > 0; count--) {
             queues.at(i).enqueue(i);
@@ -107,7 +100,7 @@ int outputData(std::vector<Queue>& queues) {
     int amount_to_output = rng(mersenne);
 
     int amount_remaining = amount_to_output;
-    for (int i = 0; i < number_of_queues; i++) {
+    for (int i = 0; i < g_number_of_queues; i++) {
         while (amount_remaining > 0 && !(queues.at(i).isEmpty()))
         {
             queues.at(i).dequeue();
@@ -119,11 +112,11 @@ int outputData(std::vector<Queue>& queues) {
 
 int main()
 {
-    std::vector<Queue> queues(number_of_queues);
+    std::vector<Queue> queues(g_number_of_queues);
     //average size of each queue
-    std::vector<double> averages(number_of_queues,0);
+    std::vector<double> averages(g_number_of_queues,0);
 
-    std::cout << "Number of queues: " << number_of_queues << std::endl;
+    std::cout << "Number of queues: " << g_number_of_queues << std::endl;
 
     int amount_of_rounds = 0;
     std::cout << "How many rounds would you like to run?" << std::endl;
@@ -142,7 +135,7 @@ int main()
 
         int amount_outputted = outputData(queues);
 
-        std::cout << "\nAmount of data outputted from the system: " << amount_outputted << '\n'; 
+        std::cout << "\nAmount of data outputted from the system: " << amount_outputted << '\n';
         std::cout << "Size of queues after output: " << std::endl;
         for (int i = 0; i < queues.size(); i++){
             std::cout << "q" << i << ".size(): " << queues.at(i).size() << '\n';
@@ -152,7 +145,7 @@ int main()
     }
 
     std::cout << "Average size of queues: \n";
-    for (int i = 0; i < number_of_queues; i++) {
+    for (int i = 0; i < g_number_of_queues; i++) {
         std::cout << "q" << i << ": " << averages.at(i)/amount_of_rounds << std::endl;
     }
 
