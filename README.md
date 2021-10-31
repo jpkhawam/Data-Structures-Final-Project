@@ -1,5 +1,5 @@
 # Data-Structures-Final-Project
-These were my solutions to my final project for my Data Structures course. This repo serves as both a backup of my work, and a way for others to see my style of coding/thinking.
+These were my solutions to my final project for my Data Structures course (on which I've earned 100/100 points!). This repo serves as both a backup of my work, and a way for others to see my style of coding/thinking.
 
 # Givens of the problems:
 [*also available in PDF form*](https://github.com/Jayy77/Data-Structures-Final-Project/blob/main/Assets/I2206%20Final%20Project.pdf)
