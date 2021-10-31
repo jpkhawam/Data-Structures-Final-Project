@@ -2,39 +2,40 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cmath>
 
 class HashTable {
 private:
-    //class to hold the information about every word, and a next element in case of collision
+    // class to hold the information about every word, and a next element when collision occurs
     class StringNode {
     public:
         std::string string;
-        StringNode* next = nullptr;
+        StringNode* next { nullptr };
         StringNode() = default;
-        StringNode(const std::string& string) { this->string = string; }
+        explicit StringNode(const std::string& string) {
+            this->string = string;
+        }
     };
     //array that will serve as the table
     std::vector<StringNode*> table = std::vector<StringNode*>(table_size);
-    static const unsigned table_size = 293; //prime number
+    static const unsigned table_size = 293; // prime number
 
 private:
-
     static unsigned hash(const std::string& input) {
-        unsigned hash = 0;
-        for (int i = 0; i < (int)input.length(); i++) 
-            hash += input.at(i) * static_cast<int>(pow(37, i));
+        unsigned hash {};
+        for (int i = 0; i < (int)input.length(); i++)
+            hash += input.at(i) * static_cast<int>(std::pow(37, i));
         return (hash % table_size);
     }
 
 public:
-
     void put(const std::string& input) {
-        unsigned index = hash(input);
+        unsigned index { hash(input) };
         if (table.at(index) == nullptr) {
             table.at(index) = new StringNode(input);
         }
         else {
-            StringNode* current = table.at(index);
+            StringNode* current { table.at(index) };
             while (current->next != nullptr)
                 current = current->next;
             current->next = new StringNode(input);
@@ -42,11 +43,12 @@ public:
     }
 
     bool exists(const std::string& input_string) {
-        unsigned index = hash(input_string);
+        unsigned index { hash(input_string) };
         if (table.at(index) != nullptr) {
-            StringNode* current = table.at(index);
+            StringNode* current { table.at(index) };
             do {
-                if (current->string == input_string) return true;
+                if (current->string == input_string)
+                    return true;
                 current = current->next;
             } while (current != nullptr);
         }
@@ -54,12 +56,9 @@ public:
     }
 };
 
-
-
 int main() {
 
     HashTable hash_table;
-
     std::ifstream dictionary(R"(Assets\dictionary.txt)");
     //Exception if file doesn't exist
     try {
